@@ -82,6 +82,14 @@ inline uint64_t HostToNetwork(uint64_t n) noexcept
     return _byteswap_uint64(n);
 }
 
+inline float HostToNetwork(float f) noexcept
+{
+	uint32_t n = *reinterpret_cast<uint32_t*>(&f);
+	n = _byteswap_ulong(n);
+	return *reinterpret_cast<float*>(&n);
+}
+
+
 #endif  // OS_POSIX
 
 // -*- big endian to little endian -*-
@@ -148,6 +156,13 @@ inline int64_t NetworkToHost(int64_t n) noexcept
 inline uint64_t NetworkToHost(uint64_t n) noexcept
 {
     return _byteswap_uint64(n);
+}
+
+inline float NetworkToHost(float f) noexcept
+{
+	uint32_t n = *reinterpret_cast<uint32_t*>(&f);
+	n = _byteswap_ulong(n);
+	return *reinterpret_cast<float*>(&n);
 }
 
 #endif  // OS_POSIX

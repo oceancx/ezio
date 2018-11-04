@@ -152,6 +152,16 @@ public:
 
     void Write(int64_t n);
 
+	void Write(uint8_t n);
+
+	void Write(uint16_t n);
+
+	void Write(uint32_t n);
+
+	void Write(uint64_t n);
+
+	void Write(float n);
+
     const value_type* Peek() const noexcept
     {
         return &*begin();
@@ -164,6 +174,16 @@ public:
     int32_t PeekAsInt32() const;
 
     int64_t PeekAsInt64() const;
+
+	uint8_t PeekAsUInt8() const;
+
+	uint16_t PeekAsUInt16() const;
+
+	uint32_t PeekAsUInt32() const;
+
+	uint64_t PeekAsUInt64() const;
+
+	float PeekAsFloat() const;
 
     void Consume(size_t data_size);
 
@@ -181,11 +201,23 @@ public:
 
     int64_t ReadAsInt64();
 
+	uint8_t ReadAsUInt8();
+
+	uint16_t ReadAsUInt16();
+
+	uint32_t ReadAsUInt32();
+
+	uint64_t ReadAsUInt64();
+
+	float ReadAsFloat();
+
     std::string ReadAsString(size_t length);
 
     std::string ReadAllAsString();
 
     void Prepend(const void* data, size_t size);
+
+	void Prepend(uint16_t n);
 
     void Prepend(int32_t n);
 

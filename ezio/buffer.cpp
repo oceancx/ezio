@@ -54,6 +54,36 @@ void Buffer::Write(int64_t n)
     Write(&be, sizeof(be));
 }
 
+void Buffer::Write(uint8_t n)
+{
+	auto be = HostToNetwork(n);
+	Write(&be, sizeof(be));
+}
+
+void Buffer::Write(uint16_t n)
+{
+	auto be = HostToNetwork(n);
+	Write(&be, sizeof(be));
+}
+
+void Buffer::Write(uint32_t n)
+{
+	auto be = HostToNetwork(n);
+	Write(&be, sizeof(be));
+}
+
+void Buffer::Write(uint64_t n)
+{
+	auto be = HostToNetwork(n);
+	Write(&be, sizeof(be));
+}
+
+void Buffer::Write(float n)
+{
+	auto be = HostToNetwork(n);
+	Write(&be, sizeof(be));
+}
+
 int8_t Buffer::PeekAsInt8() const
 {
     ENSURE(CHECK, readable_size() >= sizeof(int8_t))(readable_size()).Require();
@@ -83,6 +113,46 @@ int64_t Buffer::PeekAsInt64() const
     int64_t be;
     memcpy(&be, Peek(), sizeof(be));
     return NetworkToHost(be);
+}
+
+uint8_t Buffer::PeekAsUInt8() const
+{
+	ENSURE(CHECK, readable_size() >= sizeof(uint8_t))(readable_size()).Require();
+	uint8_t be;
+	memcpy(&be, Peek(), sizeof(be));
+	return NetworkToHost(be);
+}
+
+uint16_t Buffer::PeekAsUInt16() const
+{
+	ENSURE(CHECK, readable_size() >= sizeof(int16_t))(readable_size()).Require();
+	int16_t be;
+	memcpy(&be, Peek(), sizeof(be));
+	return NetworkToHost(be);
+}
+
+uint32_t Buffer::PeekAsUInt32() const
+{
+	ENSURE(CHECK, readable_size() >= sizeof(int32_t))(readable_size()).Require();
+	int32_t be;
+	memcpy(&be, Peek(), sizeof(be));
+	return NetworkToHost(be);
+}
+
+uint64_t Buffer::PeekAsUInt64() const
+{
+	ENSURE(CHECK, readable_size() >= sizeof(int64_t))(readable_size()).Require();
+	int64_t be;
+	memcpy(&be, Peek(), sizeof(be));
+	return NetworkToHost(be);
+}
+
+float Buffer::PeekAsFloat() const
+{
+	ENSURE(CHECK, readable_size() >= sizeof(float))(readable_size()).Require();
+	float be;
+	memcpy(&be, Peek(), sizeof(be));
+	return NetworkToHost(be);
 }
 
 void Buffer::Consume(size_t data_size)
@@ -123,6 +193,41 @@ int64_t Buffer::ReadAsInt64()
     return n;
 }
 
+uint8_t Buffer::ReadAsUInt8()
+{
+	auto n = PeekAsInt64();
+	Consume(sizeof(n));
+	return n;
+}
+
+uint16_t Buffer::ReadAsUInt16()
+{
+	auto n = PeekAsUInt16();
+	Consume(sizeof(n));
+	return n;
+}
+
+uint32_t Buffer::ReadAsUInt32()
+{
+	auto n = PeekAsUInt32();
+	Consume(sizeof(n));
+	return n;
+}
+
+uint64_t Buffer::ReadAsUInt64()
+{
+	auto n = PeekAsUInt64();
+	Consume(sizeof(n));
+	return n;
+}
+
+float Buffer::ReadAsFloat()
+{
+	auto n = PeekAsFloat();
+	Consume(sizeof(n));
+	return n;
+}
+
 std::string Buffer::ReadAsString(size_t length)
 {
     ENSURE(CHECK, readable_size() >= length)(readable_size())(length).Require();
@@ -157,6 +262,12 @@ void Buffer::Prepend(int64_t n)
 {
     auto be = HostToNetwork(n);
     Prepend(&be, sizeof(be));
+}
+
+void Buffer::Prepend(uint16_t n)
+{
+	auto be = HostToNetwork(n);
+	Prepend(&be, sizeof(be));
 }
 
 void Buffer::ReserveWritable(size_t new_size)
